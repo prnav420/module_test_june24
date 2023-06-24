@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>User Profile</title>
+    <style>
+      /* Styles for the UI */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #333;
+        color: #fff;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #444;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        text-align: center;
+        color: #fff;
+      }
+
+      .profile {
+        margin-bottom: 20px;
+      }
+
+      .profile p {
+        margin: 0;
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+        background-color: #f44336;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>User Profile</h1>
+      <div class="profile">
+        <p><strong>Full Name:</strong> <span id="fullname"></span></p>
+        <p><strong>Email:</strong> <span id="email"></span></p>
+        <p><strong>Password:</strong> ********</p>
+      </div>
+      <button id="logoutButton">Logout</button>
+    </div>
+
+    <script>
+      // Profile page
+      const user = JSON.parse(localStorage.getItem("user"));
+      const fullnameElement = document.getElementById("fullname");
+      const emailElement = document.getElementById("email");
+      const logoutButton = document.getElementById("logoutButton");
+
+      fullnameElement.textContent = user.fullName;
+      emailElement.textContent = user.email;
+
+      logoutButton.addEventListener("click", () => {
+        // Clear local storage
+        localStorage.clear();
+
+        // Redirect to signup page
+        window.location.href = "index.html";
+      });
+    </script>
+  </body>
+</html>
