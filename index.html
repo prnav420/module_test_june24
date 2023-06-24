@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>User Authentication</title>
+    <style>
+      /* Styles for the UI */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f1f1f1;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+
+      form {
+        margin-bottom: 20px;
+      }
+
+      label,
+      input {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .message {
+        color: #4caf50;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .error {
+        color: #f44336;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Signup</h1>
+      <form id="signupForm">
+        <label for="fullname">Full Name:</label>
+        <input type="text" id="fullname" required />
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" required />
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" required />
+
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" required />
+
+        <button type="submit">Signup</button>
+      </form>
+
+      <div id="message"></div>
+    </div>
+
+    <script>
+      // Signup page
+      const signupForm = document.getElementById("signupForm");
+      const messageContainer = document.getElementById("message");
+
+      signupForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        // Retrieve form values
+        const fullName = document.getElementById("fullname").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirmPassword")
+          .value;
+
+        // Password validation
+        if (password !== confirmPassword) {
+          showMessage("error", "Passwords do not match");
+          return;
+        }
+
+        // Generate random access token
+        const accessToken = generateAccessToken();
+
+        // Create user object
+        const user = {
+          fullName,
+          email,
+          password,
+          accessToken
+        };
+
+        // Save user details to local storage
+        localStorage.setItem("user", JSON.stringify(user));
+
+        // Display success message
+        showMessage(
+          "success",
+          "Signup successful. Redirecting to profile page..."
+        );
+
+        // Redirect to profile page
+        setTimeout(() => {
+          window.location.href = "profile.html";
+        }, 2000);
+      });
+
+      function generateAccessToken() {
+        const characters =
+          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        const length = 16;
+        let token = "";
+        for (let i = 0; i < length; i++) {
+          const randomIndex = Math.floor(Math.random() * characters.length);
+          token += characters.charAt(randomIndex);
+        }
+        return token;
+      }
+
+      function showMessage(type, text) {
+        messageContainer.innerHTML = `<p class="${type}">${text}</p>`;
+      }
+    </script>
+  </body>
+</html>
